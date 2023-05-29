@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./stylebuild.css">
+</head>
+<body>
+    <div id="main">
+        <div id="wrap-left">
+            <button class="btn" onclick="backPage()">Back</button>
+        </div>
+
+        <div id="wrap-right"></div>
+    </div>
+
+    <script src="./index.js">
+        (function loadData() {
+            const dataArr = localStorage.getItem('FORMSDATA');
+            const convertDataArr = JSON.parse(dataArr);
+            console.log(convertDataArr);
+            for (const item of convertDataArr) {
+                console.log(item);
+                switch (item.valueTitle) {
+                    case 'Input field':
+                        addFormInput();
+                        break;
+                    case 'Textarea field':
+                        addFormTextarea();
+                        break;
+                    case 'Button field':
+                        addFormBtn();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            const listForm = document.querySelectorAll('.form-build');
+            for (let i = 0; i < listForm.length; i++)  {
+                if (convertDataArr[i].formTitle == 'Textarea field') {
+                    listForm[i].querySelector('.row input').value = convertDataArr[i].valueRow;
+                    listForm[i].querySelector('.column input').value = convertDataArr[i].valueColumn;
+                }
+                setValueForForms(listForm[i], convertDataArr[i]);
+            }
+        })();
+    </script>
+
+    <script>
+        function backPage() {
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    
+</body>
+</html>
