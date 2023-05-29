@@ -1,3 +1,5 @@
+var count = 0;
+
 function createForm(formTitle) {
     var getWrapRight = document.getElementById('wrap-right');
     const formBuild = document.createElement('div');
@@ -6,7 +8,7 @@ function createForm(formTitle) {
         <div id="form-wrap">
             <div id="form-head">
                 <div id="form-title">${formTitle}</div>
-                <button id="form-exit" onClick="removeForm()">X</button>
+                <button id="form-exit" onClick="removeForm(this)">X</button>
             </div>
             <div id="form-body">
                 <div class="group type">
@@ -64,29 +66,19 @@ function createForm(formTitle) {
     getWrapRight.appendChild(formBuild);
 }
 
-function removeForm() {
-    // const listExitBtn = document.querySelectorAll('#form-exit');
-    // console.log(listExitBtn);
-    // for (const iterator of listExitBtn) {
-    //     iterator.parentNode.parentNode.parentNode.parentNode.removeChild(iterator.parentNode.parentNode.parentNode);
-    // }
-    // console.log(listExitBtn);
-    // formBuild.parentElement.removeChild(formBuild);   
-    // listExitBtn.forEach(function(btn) {
-    //     btn.addEventListener("click", function() {
-    //         // document.getElementById('wrap-right').removeChild(btn);
-    //         console.log(btn);
-    //     })
-    // })  
-    console.log(this.parentNode);
+function removeForm(button) {
+    var formWrap = button.parentNode.parentNode.parentNode;
+    formWrap.remove();
 }
 
 function addFormInput() {
+    count++;
     const formTitle = 'Input field';
     createForm(formTitle);
 }
 
 function addFormTextarea() {
+    count++;
     const formTitle = 'Textarea field';
     createForm(formTitle);
 
@@ -124,6 +116,7 @@ function addFormTextarea() {
 }
 
 function addFormBtn() {
+    count++;
     const formTitle = 'Button field';
     createForm(formTitle);
 
