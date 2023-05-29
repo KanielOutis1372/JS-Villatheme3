@@ -1,0 +1,127 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#main {
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#wrap-left {
+    flex-basis: 30%;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    text-align: left;
+    padding: 10px 10px;
+    margin: 0 0 10px 0;
+    border: none;
+    border-radius: 3px;
+    background-color: blue;
+    color: #fff;
+}
+
+.btn:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#wrap-right {
+    flex-basis: 58%;
+
+}
+
+.form-build {
+    display: flex;
+    flex-direction: column;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+}
+
+#form-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+#form-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#form-exit {
+    padding: 10px 0 10px 10px;
+    font-size: 16px;
+    background-color: #fff;
+    border: none;
+}
+
+#form-exit:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.group {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.group label {
+    flex-basis: 20%;
+}
+
+.group select,
+.group input,
+.span-check {
+    flex-basis: 78%;
+    
+}
+
+.group select,
+.group input {
+    padding: 10px 14px;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    
+}
+
+.span-check {
+    position: relative;
+}
+
+#form-body .group:last-child input {
+    position: absolute;
+    left: 0;
+    top: -12px ;
+}
+
+#form-wrap {
+    padding: 12px 12px 0;
+}
+
+.wrap-input {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 78%;
+    margin-bottom: 14px;
+}
+
+.group.type, 
+.group.require,
+.group.row,
+.group.column {
+    margin-bottom: 14px;
+}
