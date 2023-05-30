@@ -6,55 +6,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./stylebuild.css">
+
+    <style>
+        .group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #form-body {
+            margin: 10px 0;
+        }
+
+        .wrap-view {
+            margin-bottom: 6px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrap-view input {
+            padding: 12px 10px;
+            font-size: 15px;
+            margin: 8px 0 6px 0;
+            border: 1px solid #ccc;
+            outline: none;
+            border-radius: 3px;
+        }
+        
+        button {
+            width: 100%;
+        }
+
+        button {
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            background-color: burlywood;
+            font-size: 16px;
+            /* margin-bottom: 12px; */
+        }
+
+        button:hover {
+            cursor: pointer;
+            opacity: 0.8;
+        }
+
+        textarea {
+            border: 1px solid #ccc;
+            margin: 6px 0;
+            outline: none;
+            padding: 12px 12px;
+            border-radius: 3px;
+            font-size: 15px;
+        }
+
+        .back {
+            width: 20%;
+            background-color: #fff;
+            color: black;
+            font-size: 30px;
+        }
+
+        .back:hover {
+            opacity: 0.6;
+        }
+    </style>
+
 </head>
 <body>
     <div id="main">
         <div id="wrap-left">
-            <button class="btn" onclick="backPage()">Back</button>
+            <button class="back" onclick="backPage()">&#8592;</button>
         </div>
 
-        <div id="wrap-right"></div>
+        <div id="wrap-right">
+            <div class="form-build">
+                <div id="form-wrap">
+                    <div id="form-head">
+                        <div id="form-title">Form</div>
+                    </div>
+                    <div id="form-body">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script src="./index.js">
-        (function loadData() {
-            const dataArr = localStorage.getItem('FORMSDATA');
-            const convertDataArr = JSON.parse(dataArr);
-            console.log(convertDataArr);
-            for (const item of convertDataArr) {
-                console.log(item);
-                switch (item.valueTitle) {
+    <script>
+
+        function viewDatas() {
+            const arrData = localStorage.getItem('FORMSDATA');
+            const convertArrData = JSON.parse(arrData);
+            for (const i of convertArrData) {
+                console.log(i);
+                switch (i.valueTitle) {
                     case 'Input field':
-                        addFormInput();
-                        break;
-                    case 'Textarea field':
-                        addFormTextarea();
+                        addInputField(i.valueType, i.valueLabel, i.valueName, i.valueId, i.valuePlaceholder, i.valueRequire ? '(require)' : '');
                         break;
                     case 'Button field':
-                        addFormBtn();
+                        addButton(i.valueLabel, i.valueName, i.valueId);
                         break;
+                    case 'Textarea field':
+                        addTextarea(i.valueLabel, i.valueName, i.valueId, i.valueCol, i.valueRow, i.valuePlaceholder, i.valueRequire ? '(require)' : '')
+                        break;                  
                     default:
                         break;
                 }
             }
+        }
+        viewDatas();
 
-            const listForm = document.querySelectorAll('.form-build');
-            for (let i = 0; i < listForm.length; i++)  {
-                if (convertDataArr[i].formTitle == 'Textarea field') {
-                    listForm[i].querySelector('.row input').value = convertDataArr[i].valueRow;
-                    listForm[i].querySelector('.column input').value = convertDataArr[i].valueColumn;
-                }
-                setValueForForms(listForm[i], convertDataArr[i]);
-            }
-        })();
-    </script>
+        function addInputField(_type, _label, _name, _id, _placeholder, _require) {
+            const getFormBody = document.querySelector('#form-body');
+            const itemView = document.createElement('div');
+            itemView.classList.add('wrap-view');
+            itemView.innerHTML = `
+                <label>
+                    ${_label}
+                    <span>${_require}</span>
+                </label>
+                <input type="${_type}" name="${_name}" id="${_id}" placeholder="${_placeholder}">
+            `;
+            getFormBody.appendChild(itemView);
+        }
 
-    <script>
+        function addButton(_label, _name, _id) {
+            const views = document.getElementById('form-body');
+            const itemView = document.createElement('button');
+            itemView.innerHTML = `
+                <button name="${_name}" id="${_id}">${_label}</button>
+            `;
+            views.appendChild(itemView);
+        }
+
+        function addTextarea(_label, _name, _id, _col, _row, _placeholder, _require) {
+            const views = document.getElementById('form-body');
+            const itemView = document.createElement('div');
+            itemView.classList.add('wrap-view');
+            itemView.innerHTML = `
+                <label>
+                    ${_label}
+                    <span>${_require}</span>
+                </label>
+                <textarea name="${_name}" id="${_id}" cols="30"" rows="10" placeholder="${_placeholder}"></textarea>
+            `;
+            views.appendChild(itemView);
+        }
+
         function backPage() {
             window.location.href = 'index.html';
         }
     </script>
-
-    
 </body>
 </html>

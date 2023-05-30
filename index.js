@@ -1,5 +1,3 @@
-var count = 0;
-
 function createForm(formTitle) {
     var getWrapRight = document.getElementById('wrap-right');
     const formBuild = document.createElement('div');
@@ -72,13 +70,11 @@ function removeForm(button) {
 }
 
 function addFormInput() {
-    count++;
     const formTitle = 'Input field';
     createForm(formTitle);
 }
 
 function addFormTextarea() {
-    count++;
     const formTitle = 'Textarea field';
     createForm(formTitle);
 
@@ -100,7 +96,7 @@ function addFormTextarea() {
             groupRow.classList.add('group','row');
             groupRow.innerHTML = `
                 <label>Row</label>
-                <input type="number" value="30" min=0>
+                <input type="number" value="10" min=0>
             `;
             iterator.querySelector('#form-wrap').appendChild(groupRow);
 
@@ -108,15 +104,17 @@ function addFormTextarea() {
             groupCol.classList.add('group','column');
             groupCol.innerHTML = `
                 <label>Column</label>
-                <input type="number" value="10" min=0>
+                <input type="number" value="30" min=0>
             `;
             iterator.querySelector('#form-wrap').appendChild(groupCol);
+
+            iterator.querySelector('.type').style.display = 'none';
+
         }
     }
 }
 
 function addFormBtn() {
-    count++;
     const formTitle = 'Button field';
     createForm(formTitle);
 
@@ -124,7 +122,6 @@ function addFormBtn() {
     for (const iterator of listFormBuild) {
         if(iterator.querySelector('#form-title').textContent == formTitle) {
             iterator.querySelector('select').value = 'button';
-
             let listOption = iterator.querySelectorAll('option');
             for (const i of listOption) {
                 if (i.value == 'button') {
@@ -134,9 +131,16 @@ function addFormBtn() {
                     i.parentNode.removeChild(i);
                 }
             };
+
+            iterator.querySelector('.type').style.display = 'none';
+            iterator.querySelector('.placeholder').style.display = 'none';
+            iterator.querySelector('.require').style.display = 'none';
         }
     }
+
+   
 }
+
 
 function createNew() {
     let listFormBuild = document.querySelectorAll('.form-build');
@@ -145,6 +149,8 @@ function createNew() {
         wrapRight.removeChild(iterator);
     }
 }
+
+createNew();
 
 function setData(myObj, element) {
     myObj.valueTitle = element.querySelector("#form-title").textContent;
@@ -164,13 +170,12 @@ function setData(myObj, element) {
 }
 
 function saveData() {
+    let rs = true;
     const arrTemp = [];
     const listForm = document.querySelectorAll('.form-build');
-    // console.log(listForm.length);
     for (let index = 0; index<listForm.length; index++) {
         const element = listForm[index];
         var formTitles = element.querySelector('#form-title').textContent;
-        // console.log(formTitle);
 
         switch (formTitles) {
             case 'Input field':
@@ -179,12 +184,18 @@ function saveData() {
                 if(validateCheck(element)) {
                     arrTemp.push(inputForm);
                 }
+                else {
+                    rs = false;
+                }
                 break;
             case 'Textarea field':
                 const textareaForm = {};
                 setData(textareaForm, element);
                 if(validateCheck(element)) {
                     arrTemp.push(textareaForm);
+                }
+                else {
+                    rs = false;
                 }
                 break;
             case 'Button field':
@@ -193,21 +204,25 @@ function saveData() {
                 if(validateCheck(element)) {
                     arrTemp.push(buttonForm);
                 }
+                else {
+                    rs = false;
+                }
                 break;
-
             default:
                 break;
             }
     }
 
-    const myArr = JSON.stringify(arrTemp); 
-    if(localStorage.getItem('FORMSDATA')) {
-        localStorage.setItem('FORMSDATA', myArr);
+    if(rs) {
+        const myArr = JSON.stringify(arrTemp); 
+        if(localStorage.getItem('FORMSDATA')) {
+            localStorage.setItem('FORMSDATA', myArr);
+        }
+        else {
+            localStorage.setItem('FORMSDATA', myArr);
+        }
+        showForms();
     }
-    else {
-        localStorage.setItem('FORMSDATA', myArr);
-    }
-
 }
 
 function showForms() {
@@ -229,7 +244,7 @@ function setValueForForms(element, item) {
     }
 }
 
-(function loadData() {
+function loadData() {
     const dataArr = localStorage.getItem('FORMSDATA');
     const convertDataArr = JSON.parse(dataArr);
     console.log(convertDataArr);
@@ -258,7 +273,7 @@ function setValueForForms(element, item) {
         }
         setValueForForms(listForm[i], convertDataArr[i]);
     }
-})();
+}
 
 function validateCheck(item) {
     var result = true;
